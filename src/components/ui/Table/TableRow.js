@@ -2,25 +2,27 @@ import React from 'react';
 import {createUseStyles} from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
-  cell: {
-    padding: '5px 16px',
+  row: {
+    // display: 'grid',
+    // gridTemplateColumns: '1fr 100px 150px 100px',
+    // gap: 1,
+    cursor: 'pointer',
+    transition: 'all .3s',
+    '&:hover': {
+      boxShadow: '0px 0px 4px 0px #d7d7d782',
+      backgroundColor: '#d7d7d782'
+    },
   },
 }))
 
-const TableHead = ({ cells }) => {
-  const { cell } = useStyles();
+const TableRow = ({ children }) => {
+  const { row } = useStyles();
 
   return (
-    <>
-      {cells.map(({ name }) => {
-        return (
-          <div className={cell}>
-            { name }
-          </div>
-        );
-      })}
-    </>
+    <tr className={row}>
+      { children }
+    </tr>
   );
 };
 
-export default TableHead;
+export default TableRow;

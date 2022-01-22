@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useValidation } from './useValidate';
 import { correctName, returnNumber } from '../utils/regexpFunctions';
+import {useValidation} from "./validate.hook";
 
 export const useInput = (initialValue, validations, isFilter) => {
   const [value, setValue] = useState(initialValue);

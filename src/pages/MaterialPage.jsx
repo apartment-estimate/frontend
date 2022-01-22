@@ -1,11 +1,30 @@
 import React from 'react';
+import TitlePage from "../components/ui/TitlePage";
+import {createUseStyles} from "react-jss";
+import CreateMaterialForm from "../components/layout/CreateMaterialForm";
+import TableMaterials from "../components/layout/Materials/TableMaterials";
 
-const Material = () => {
+const useStyles = createUseStyles((theme) => ({
+  wrapper: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gap: 30,
+    marginTop: 50,
+  }
+}))
+
+const MaterialPage = () => {
+  const { wrapper } = useStyles();
+
   return (
-    <div>
-      Страница с материалами
+    <div >
+      <TitlePage title="Материалы" />
+      <div className={wrapper}>
+        <CreateMaterialForm />
+        <TableMaterials />
+      </div>
     </div>
   );
 };
 
-export default Material;
+export default MaterialPage;

@@ -3,18 +3,26 @@ import {createUseStyles} from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
   button: {
-    height: 40,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    border: 'none',
   }
 }))
 
-const Button = ({ name, ...props }) => {
+const ButtonIcon = ({ children, styles, ...props }) => {
   const { button } = useStyles();
 
   return (
-    <button className={button} type="button" {...props}>
-      {name}
+    <button
+      className={`${button} ${styles}`}
+      type="button"
+      {...props}
+    >
+      {children}
     </button>
   );
 };
 
-export default Button;
+export default ButtonIcon;

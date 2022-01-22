@@ -52,7 +52,7 @@ export const useValidation = (value, checked, validations, regex) => {
           break;
       }
     }
-  }, [value, checked]);
+  }, [value, checked, validations]);
 
   useEffect(() => {
     if (isEmpty || minLengthErr || maxLengthErr || isEmail || isAccept) {

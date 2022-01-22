@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import { ModalContext } from '../../state/context/modal-context';
-import { CloseIcon } from './Icons/CloseIcon';
+// import { ModalContext } from '../../state/context/modal-context';
+// import { CloseIcon } from './Icons/CloseIcon';
+import { createUseStyles } from "react-jss";
+import { ModalContext } from "../../state/context/modal.context";
+import {CloseIcon} from "./icons/Close.icon";
+import ButtonIcon from "./buttons/ButtonIcon";
 
-const useStyles = makeStyles(({ breakpoints, palette: { primary }, typography }) => ({
+const useStyles = createUseStyles((theme) => ({
   '@keyframes showBackdrop': {
     from: {
       opacity: 0,
@@ -32,7 +34,7 @@ const useStyles = makeStyles(({ breakpoints, palette: { primary }, typography })
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: primary.backdrop,
+    backgroundColor: theme.backdrop,
     zIndex: 3,
     transition: 'all .2s',
     animation: '$showBackdrop .1s ease-in-out',
@@ -43,8 +45,8 @@ const useStyles = makeStyles(({ breakpoints, palette: { primary }, typography })
   },
   modal: {
     position: 'relative',
-    backgroundColor: primary.dim,
-    width: 370,
+    backgroundColor: theme.main,
+    width: 600,
     padding: 24,
     borderRadius: 4,
     boxShadow: '0 0 25px rgba(0, 0, 0, 0.144)',
@@ -54,31 +56,38 @@ const useStyles = makeStyles(({ breakpoints, palette: { primary }, typography })
     zIndex: 3,
     transition: 'all .2s',
     '& a': {
-      color: typography.color,
+      color: theme.typography.main,
     },
-    [breakpoints.down('sm')]: {
+    '@media (max-width: 499px)': {
       width: '100%',
       height: '100%',
-      '&:after': {
-        content: ({ headerLineBottom }) => (headerLineBottom ? '""' : ''),
-        position: 'absolute',
-        top: 78,
-        left: 0,
-        right: 0,
-        height: 1,
-        backgroundColor: primary.main,
-      },
     },
+    // [breakpoints.down('sm')]: {
+    //   width: '100%',
+    //   height: '100%',
+      // '&:after': {
+      //   content: ({ headerLineBottom }) => (headerLineBottom ? '""' : ''),
+      //   position: 'absolute',
+      //   top: 78,
+      //   left: 0,
+      //   right: 0,
+      //   height: 1,
+      //   backgroundColor: primary.main,
+      // },
+    // },
   },
-  closeIcon: {
+  closeIconButton: {
     zIndex: 1,
     position: 'absolute',
-    top: 22,
-    right: 17,
+    top: 20,
+    right: 20,
+    borderRadius: '50%',
+    width: 30,
+    height: 30,
   },
   modalHeader: {
     position: 'relative',
-    margin: '10px 0 40px',
+    margin: '40px 0',
     fontSize: 20,
     textAlign: 'center',
     lineHeight: '20px',
@@ -98,9 +107,10 @@ const useStyles = makeStyles(({ breakpoints, palette: { primary }, typography })
     height: 0,
     borderLeft: '10px solid transparent',
     borderRight: '10px solid transparent',
-    borderBottom: `10px solid ${primary.dim}`,
+    borderBottom: `10px solid ${theme.main}`,
   },
-}));
+
+}))
 
 export const Modal = (props) => {
   const {
@@ -114,14 +124,13 @@ export const Modal = (props) => {
     ifBlur,
     position,
     addTooltip,
-    headerLineBottom,
   } = props;
-  const { backdrop, modal, modalHeader, closeIcon, childrenContainer, backdropHide, modalHide, tooltip } = useStyles({ headerLineBottom });
+
+  const { backdrop, modal, modalHeader, closeIconButton, childrenContainer, backdropHide, modalHide, tooltip } = useStyles();
   const { closeModal } = useContext(ModalContext);
   const [closing, setClosing] = useState(false);
 
   const handleClose = () => {
-    if (ifBlur) return;
     setClosing(true);
     addFunctionClose();
     const closeTimeout = setTimeout(() => {
@@ -130,14 +139,24 @@ export const Modal = (props) => {
     }, 300);
   };
 
+  const handleCloseBackdrop = () => {
+    if (ifBlur) return;
+    setClosing(true);
+    addFunctionClose();
+    const closeTimeout = setTimeout(() => {
+      closeModal();
+      clearTimeout(closeTimeout);
+    }, 300);
+  }
+
   return (
-    <div style={position} className={closing ? `${backdrop} ${backdropHide}` : backdrop} onClick={handleClose}>
+    <div style={position} className={closing ? `${backdrop} ${backdropHide}` : backdrop} onClick={handleCloseBackdrop}>
       <div style={styleModal} className={closing ? `${modal} ${modalHide}` : modal} onClick={(e) => e.stopPropagation()}>
         {addTooltip && <div className={tooltip} />}
         {!closeButtonNone && (
-          <IconButton onClick={handleClose} className={closeIcon}>
-            <CloseIcon />
-          </IconButton>
+          <ButtonIcon onClick={handleClose} styles={closeIconButton}>
+            <CloseIcon width={16} height={16} />
+          </ButtonIcon>
         )}
         <h3 style={styleTitle} className={modalHeader}>
           {title}
