@@ -7,11 +7,11 @@ const useStyles = createUseStyles((theme) => ({
   }
 }))
 
-const Button = ({ name, ...props }) => {
+const Button = ({ name, styles, ...props }) => {
   const { button } = useStyles();
 
   return (
-    <button className={button} type="button" {...props}>
+    <button className={`${button} ${styles}`} type="button" {...props}>
       {name}
     </button>
   );
