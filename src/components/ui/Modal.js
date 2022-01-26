@@ -45,7 +45,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   modal: {
     position: 'relative',
-    backgroundColor: theme.main,
+    backgroundColor: theme.color.main,
     width: 600,
     padding: 24,
     borderRadius: 4,
@@ -107,7 +107,7 @@ const useStyles = createUseStyles((theme) => ({
     height: 0,
     borderLeft: '10px solid transparent',
     borderRight: '10px solid transparent',
-    borderBottom: `10px solid ${theme.main}`,
+    borderBottom: `10px solid ${theme.color.main}`,
   },
 
 }))
@@ -154,9 +154,11 @@ export const Modal = (props) => {
       <div style={styleModal} className={closing ? `${modal} ${modalHide}` : modal} onClick={(e) => e.stopPropagation()}>
         {addTooltip && <div className={tooltip} />}
         {!closeButtonNone && (
-          <ButtonIcon onClick={handleClose} styles={closeIconButton}>
-            <CloseIcon width={16} height={16} />
-          </ButtonIcon>
+          <div className={closeIconButton}>
+            <ButtonIcon onClick={handleClose}>
+              <CloseIcon width={16} height={16} />
+            </ButtonIcon>
+          </div>
         )}
         <h3 style={styleTitle} className={modalHeader}>
           {title}

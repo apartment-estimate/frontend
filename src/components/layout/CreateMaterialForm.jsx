@@ -1,49 +1,73 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import Input from "../ui/Input";
 import Button from "../ui/buttons/Button";
 import {createUseStyles} from "react-jss";
 import {useInput} from "../../hooks/input.hook";
 import {modPrice} from "../../utils/modPrice";
+import Select from "../ui/Select";
+import {units} from "../../state/mock/unitsMock";
+import {useMaterialsHook} from "../../hooks/materials.hook";
+import {ModalContext} from "../../state/context/modal.context";
 
-const useStyles = createUseStyles((theme) => ({
+const useStyles = createUseStyles(() => ({
   form: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr 1fr',
+    gridTemplateColumns: '1fr',
+    alignItems: 'end',
+    gap: 10,
+  },
+  group2: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr',
     alignItems: 'end',
     gap: 20,
   },
-  nameMaterial: {
-    gridColumnStart: 1,
-    gridColumnEnd: -1,
-  },
+  optionPosition: {
+    bottom: 0,
+  }
 }))
 
-const CreateMaterialForm = () => {
-  const { form, nameMaterial } = useStyles();
+const CreateMaterialForm = ({ changeMaterial }) => {
+  const { form, group2, optionPosition } = useStyles();
+  const { createMaterials, changeMaterialApi } = useMaterialsHook();
+  const { closeModal } = useContext(ModalContext);
+  // const { materials, setMaterials } = useContext(MaterialContext);
 
-  const name = useInput('');
-  const unit = useInput('');
-  const price = useInput('', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
-  const ratio = useInput('', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
+  const name = useInput(changeMaterial?.name || '');
+  const category = useInput(changeMaterial?.category || '');
+  const [unit, setUnit] = useState(changeMaterial?.unit || '');
+  const priceNet = useInput(changeMaterial?.priceNet || '', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
 
-  const noCreateMaterial = (e) => {
+  console.log(changeMaterial)
+  const noCreateMaterial = async (e) => {
     e.preventDefault();
     const material = {
       name: name.value,
-      unit: unit.value,
-      price: price.value,
-      ratio: ratio.value,
+      category: category.value,
+      unit: unit,
+      priceNet: +priceNet.value,
+      purpose: 'basic',
+      _id: changeMaterial ? changeMaterial._id : null,
     }
-    console.log(material);
+    if (changeMaterial) {
+      await changeMaterialApi(material);
+    } else {
+      await createMaterials(material);
+    }
+    closeModal();
   };
 
   return (
     <form className={form} action="">
-      <Input value={name.value} setValue={(e) => name.onChange(e)} styles={nameMaterial} placeholder="Наименование материала" />
-      <Input value={unit.value} setValue={(e) => unit.onChange(e)} placeholder="Ед. измерения" />
-      <Input value={modPrice(price.value)} setValue={(e) => price.onChange(e)} placeholder="Цена за единицу" />
-      <Input value={ratio.value} setValue={(e) => ratio.onChange(e)} placeholder="Коэффициент" />
-      <Button onClick={noCreateMaterial} name="Добавить материал" type="submit" />
+      <div>
+        <Input value={name.value} setValue={(e) => name.onChange(e)} placeholder="Наименование материала" />
+      </div>
+      <Input value={category.value} setValue={(e) => category.onChange(e)} placeholder="Категория материала" />
+      <div className={group2}>
+        <Select positionOptions={optionPosition} options={units} setValue={setUnit} value={unit} placeholder="Единица измерения" />
+        <Input value={modPrice(priceNet.value)} setValue={(e) => priceNet.onChange(e)} placeholder="Цена за единицу" />
+        <Button onClick={noCreateMaterial} name={changeMaterial ? "Изменить материал" : "Добавить материал"} type="submit" />
+      </div>
     </form>
   );
 };

@@ -2,11 +2,14 @@ import React from 'react';
 import {createUseStyles} from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
+  label_wrapper: {
+    width: '100%',
+  },
   input: {
     width: '100%',
     height: 40,
     background: 'transparent',
-    border: '1px solid #000',
+    border: `1px solid ${theme.borderColor.main}`,
     borderRadius: 3,
     padding: '0 16px',
     // color: '',
@@ -39,11 +42,11 @@ const useStyles = createUseStyles((theme) => ({
   },
 }))
 
-const Input = ({ placeholder, styles, value, setValue }) => {
-  const { wrapper, input, labelInput } = useStyles();
+const Input = ({ placeholder, value, setValue }) => {
+  const { label_wrapper, input, labelInput } = useStyles();
 
   return (
-    <label className={`${wrapper} ${styles}`}>
+    <label className={label_wrapper}>
       <span className={labelInput}>{placeholder}</span>
       <input className={input} type="text" value={value} onChange={setValue}/>
     </label>

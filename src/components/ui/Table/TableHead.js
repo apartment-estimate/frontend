@@ -15,6 +15,9 @@ const useStyles = createUseStyles((theme) => ({
   },
   cell: {
     padding: '5px 16px',
+    borderBottom: `1px solid ${theme.color.backdrop}`,
+    fontWeight: 700,
+    width: '100%',
   },
 }))
 
@@ -24,13 +27,11 @@ const TableHead = ({ cellHeader }) => {
   return (
     <thead className={thead}>
       <tr className={row}>
+
         {cellHeader.map((item) => {
-          return (
-            <th key={item.name} className={cell} >
-              { item.name }
-            </th>
-          );
+          return <th key={item.name} className={cell} >{ item.name }</th>
         })}
+
       </tr>
     </thead>
   );

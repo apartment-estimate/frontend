@@ -1,12 +1,14 @@
 export const theme = {
   color: {
-    backdrop: 'rgba(0,0,0,0.5)',
+    backdrop: '#80808021',
     main: '#FFFFFF',
-    dim: '',
+    dim: '#1ab293',
+    dim60: '#99d9c8',
   },
 
   typography: {
     main: '#000000',
+    dim: '#FFFFFF',
     accent: '',
   },
 
@@ -16,4 +18,7 @@ export const theme = {
     lg: 1024,
     xl: 1441,
   },
+  borderColor: {
+    main: 'rgba(0, 0, 0, 0.144)',
+  }
 }
