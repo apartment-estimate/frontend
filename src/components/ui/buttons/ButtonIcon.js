@@ -1,13 +1,14 @@
 import React from 'react';
 import {createUseStyles} from "react-jss";
 
-const useStyles = createUseStyles((theme) => ({
+const useStyles = createUseStyles(() => ({
   button: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',
     border: 'none',
+    cursor: 'pointer',
   }
 }))
 
@@ -16,7 +17,7 @@ const ButtonIcon = ({ children, styles, ...props }) => {
 
   return (
     <button
-      className={`${button} ${styles}`}
+      className={`${button} ${styles || ''}`}
       type="button"
       {...props}
     >

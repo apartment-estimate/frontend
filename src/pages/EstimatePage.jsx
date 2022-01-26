@@ -1,63 +1,34 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import TitlePage from "../components/ui/TitlePage";
-// import { ModalContext } from "../state/context/modal.context";
 import {createUseStyles} from "react-jss";
-import Input from "../components/ui/Input";
-import Button from "../components/ui/buttons/Button";
-import {useInput} from "../hooks/input.hook";
 import AddMaterialForm from "../components/layout/AddMaterialForm";
 import TableEstimate from "../components/layout/Estimate/TableEstimate";
+import EstimateBody from "../components/layout/Estimate/EstimateBody";
+import {useMaterialsHook} from "../hooks/materials.hook";
 
-const useStyles = createUseStyles((theme) => ({
-  nameWrapper: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    gap: 20,
-    width: '100%',
-  },
-  input: {
-    width: '100%'
-  },
-  buttonStyle: {
-    width: 200,
-  },
-  wrapper: {
+const useStyles = createUseStyles(() => ({
+  wrapper_estimatePage: {
     display: 'grid',
     gridTemplateColumns: '1fr',
     gap: 30,
     marginTop: 50,
-  }
+  },
 }))
 
 const EstimatePage = () => {
+  const { wrapper_estimatePage } = useStyles();
+  const { getMaterials } = useMaterialsHook();
 
-  const { wrapper, nameWrapper, input, buttonStyle } = useStyles();
-  // const { openedModal } = useContext(ModalContext);
 
-  const name = useInput('');
-
-  // const createEstimate = () => {
-  //   openedModal({
-  //     title: 'Создание новой сметы',
-  //     children: <CreateDataEstimate />,
-  //     ifBlur: true,
-  //   });
-  // }
+  useEffect(() => {
+    getMaterials().then();
+  }, [getMaterials]);
 
   return (
     <>
       <TitlePage title="Страница создания сметы" />
-      <div className={wrapper}>
-        <div className={nameWrapper}>
-          <Input
-            value={name.value}
-            setValue={(e) => name.onChange(e)}
-            styles={input}
-            placeholder="Название сметы"
-          />
-          <Button styles={buttonStyle} name="Создать" />
-        </div>
+      <div className={wrapper_estimatePage}>
+        <EstimateBody />
         <AddMaterialForm />
         <TableEstimate />
       </div>

@@ -9,7 +9,7 @@ export const materialsTableHeaderMock = [
     name: 'Цена',
   },
   {
-    name: 'Кoэф-нт',
+    name: 'Действия',
   },
 ]
 
@@ -38,18 +38,22 @@ export const materialsMock = [
 export const estimateTableHeaderMock = [
   {
     name: 'Материал',
+    width: 'auto',
   },
-  {
-    name: 'Категория',
-  },
+  // {
+  //   name: 'Категория',
+  // },
   {
     name: 'Количество',
+    width: 100,
   },
   {
     name: 'Кoэф-т',
+    width: 100,
   },
   {
     name: 'Сумма',
+    width: 200,
   },
 ]
 
