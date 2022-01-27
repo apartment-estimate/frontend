@@ -9,10 +9,11 @@ const useStyles = createUseStyles(() => ({
 
 const TableCell = ({ children, styles, textCell, position, width }) => {
   const { cell } = useStyles();
+  const content = { textAlign: position, width: `${width}px` }
 
   return (
     <td className={`${cell} ${styles || ''}`}>
-      <div style={{ textAlign: position, width: `${width}px` }}>
+      <div style={content}>
         {textCell}
         {children}
       </div>
