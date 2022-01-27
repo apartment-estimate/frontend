@@ -38,9 +38,9 @@ export const useMaterialsHook = () => {
   }, [getMaterials, visibleAlert])
 
 
-  const changeMaterialApi = useCallback( async (data) => {
+  const changeMaterialApi = useCallback( async (data, name) => {
     setLoading(true);
-    const request = await httpRequest('PUT',  `materials/${data.name}`, data);
+    const request = await httpRequest('PUT',  `materials/${name}`, data);
 
     if (request.status === 200) {
       visibleAlert({

@@ -8,13 +8,14 @@ import Select from "../ui/Select";
 import {units} from "../../state/mock/unitsMock";
 import {useMaterialsHook} from "../../hooks/materials.hook";
 import {ModalContext} from "../../state/context/modal.context";
+import {Checkbox} from "../ui/Checkbox";
 
 const useStyles = createUseStyles(() => ({
   form: {
     display: 'grid',
     gridTemplateColumns: '1fr',
     alignItems: 'end',
-    gap: 10,
+    gap: 20,
   },
   group2: {
     display: 'grid',
@@ -31,28 +32,27 @@ const CreateMaterialForm = ({ changeMaterial }) => {
   const { form, group2, optionPosition } = useStyles();
   const { createMaterials, changeMaterialApi } = useMaterialsHook();
   const { closeModal } = useContext(ModalContext);
-  // const { materials, setMaterials } = useContext(MaterialContext);
 
   const name = useInput(changeMaterial?.name || '');
   const category = useInput(changeMaterial?.category || '');
   const [unit, setUnit] = useState(changeMaterial?.unit || '');
   const priceNet = useInput(changeMaterial?.priceNet || '', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
+  const [purpose, setPurpose] = useState((changeMaterial?.purpose === 'auxiliary' && true) || false);
 
-  console.log(changeMaterial)
   const noCreateMaterial = async (e) => {
     e.preventDefault();
-    const material = {
+    const materialData = {
       name: name.value,
       category: category.value,
-      unit: unit,
       priceNet: +priceNet.value,
-      purpose: 'basic',
       _id: changeMaterial ? changeMaterial._id : null,
+      purpose: purpose ? 'auxiliary' : 'basic',
+      unit,
     }
     if (changeMaterial) {
-      await changeMaterialApi(material);
+      await changeMaterialApi(materialData, changeMaterial.name);
     } else {
-      await createMaterials(material);
+      await createMaterials(materialData);
     }
     closeModal();
   };
@@ -63,6 +63,16 @@ const CreateMaterialForm = ({ changeMaterial }) => {
         <Input value={name.value} setValue={(e) => name.onChange(e)} placeholder="Наименование материала" />
       </div>
       <Input value={category.value} setValue={(e) => category.onChange(e)} placeholder="Категория материала" />
+      <div>
+        <Checkbox
+          checked={purpose}
+          handlerChange={() => setPurpose(!purpose)}
+        >
+          <span>
+            {purpose ? "Может содержать в себе сопутствующие материалы" : "Не может содержать в себе сопутствующие материалы" }
+        </span>
+        </Checkbox>
+      </div>
       <div className={group2}>
         <Select positionOptions={optionPosition} options={units} setValue={setUnit} value={unit} placeholder="Единица измерения" />
         <Input value={modPrice(priceNet.value)} setValue={(e) => priceNet.onChange(e)} placeholder="Цена за единицу" />

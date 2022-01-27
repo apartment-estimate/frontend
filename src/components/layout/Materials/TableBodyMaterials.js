@@ -5,10 +5,10 @@ import {modPrice} from "../../../utils/modPrice";
 import ButtonIcon from "../../ui/buttons/ButtonIcon";
 import {DeletedIcon} from "../../ui/icons/Deleted.icon";
 import {createUseStyles} from "react-jss";
-import {useMaterialsHook} from "../../../hooks/materials.hook";
 import {EditIcon} from "../../ui/icons/Edit.icon";
 import {ModalContext} from "../../../state/context/modal.context";
 import CreateMaterialForm from "../CreateMaterialForm";
+import DeleteMaterialModal from "./DeleteMaterialModal";
 
 const useStyles = createUseStyles(() => ({
   cellStyles: {
@@ -30,15 +30,20 @@ const useStyles = createUseStyles(() => ({
 
 const TableBodyMaterials = ({ materials }) => {
   const { cellStyles, iconWrapper } = useStyles();
-  const { deletedMaterial } = useMaterialsHook();
   const { openedModal } = useContext(ModalContext);
 
   const onHandleChangeMaterial = (material) => {
     openedModal({
       title: 'Создание материала',
       children: <CreateMaterialForm changeMaterial={material} />,
-      // children: <div>sadfsdfs</div>,
       ifBlur: true,
+    })
+  }
+
+  const onHandleDeleteMaterial = (material) => {
+    openedModal({
+      title: '',
+      children: <DeleteMaterialModal material={material} />,
     })
   }
 
@@ -55,7 +60,7 @@ const TableBodyMaterials = ({ materials }) => {
               <ButtonIcon onClick={() => onHandleChangeMaterial(row)}>
                 <EditIcon width={16} height={16} />
               </ButtonIcon>
-              <ButtonIcon onClick={() => deletedMaterial(row.name) }>
+              <ButtonIcon onClick={() => onHandleDeleteMaterial(row) }>
                 <DeletedIcon width={16} height={16} />
               </ButtonIcon>
             </div>

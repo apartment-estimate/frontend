@@ -36,7 +36,8 @@ const MaterialPage = () => {
 
         <div>
           <ButtonIcon onClick={handleCreateMaterial}>
-            <PlusIcon width={60} height={60} />
+            <PlusIcon width={20} height={20} />
+            <div style={{ marginLeft: 10 }}>Добавить материал в базу</div>
           </ButtonIcon>
         </div>
 
