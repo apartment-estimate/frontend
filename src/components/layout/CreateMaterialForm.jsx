@@ -10,7 +10,7 @@ import {useMaterialsHook} from "../../hooks/materials.hook";
 import {ModalContext} from "../../state/context/modal.context";
 import {Checkbox} from "../ui/Checkbox";
 
-const useStyles = createUseStyles(() => ({
+const useStyles = createUseStyles((theme) => ({
   form: {
     display: 'grid',
     gridTemplateColumns: '1fr',
@@ -74,7 +74,7 @@ const CreateMaterialForm = ({ changeMaterial }) => {
         </Checkbox>
       </div>
       <div className={group2}>
-        <Select positionOptions={optionPosition} options={units} setValue={setUnit} value={unit} placeholder="Единица измерения" />
+        <Select additionalStyles={optionPosition} options={units} setValue={setUnit} value={unit} placeholder="Единица измерения" />
         <Input value={modPrice(priceNet.value)} setValue={(e) => priceNet.onChange(e)} placeholder="Цена за единицу" />
         <Button onClick={noCreateMaterial} name={changeMaterial ? "Изменить материал" : "Добавить материал"} type="submit" />
       </div>

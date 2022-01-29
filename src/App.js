@@ -5,6 +5,7 @@ import EstimatePage from "./pages/EstimatePage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 import { Layout } from "./components/layout/Layout";
+import EstimateCreatePage from "./pages/EstimateCreatePage";
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
         <Route path="/" element={ <Layout /> } >
           <Route index element={ <HomePage /> } />
           <Route path="material" element={ <MaterialPage /> } />
-          <Route path="estimate" element={ <EstimatePage /> } />
+          <Route path="estimates" element={ <EstimatePage /> } />
+          <Route path="estimates/:name" element={ <EstimateCreatePage /> } />
           <Route path="*" element={ <NotFoundPage /> } />
         </Route>
       </Routes>

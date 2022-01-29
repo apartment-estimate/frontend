@@ -10,7 +10,7 @@ import {ModalContext} from "../../../state/context/modal.context";
 import CreateMaterialForm from "../CreateMaterialForm";
 import DeleteMaterialModal from "./DeleteMaterialModal";
 
-const useStyles = createUseStyles(() => ({
+const useStyles = createUseStyles((theme) => ({
   cellStyles: {
     '& svg': {
       fill: 'gray',
