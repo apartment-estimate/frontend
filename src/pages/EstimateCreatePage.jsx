@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from 'react';
 import { useParams } from "react-router-dom";
 import {createUseStyles} from "react-jss";
-import AddMaterialForm from "../components/layout/AddMaterialForm";
+import AddMaterialFormModal from "../components/layout/Estimate/AddMaterialFormModal";
 import TableEstimate from "../components/layout/Estimate/TableEstimate";
 import EstimateBody from "../components/layout/Estimate/EstimateBody";
 import ButtonIcon from "../components/ui/buttons/ButtonIcon";
@@ -48,7 +48,7 @@ const EstimateCreatePage = () => {
   const handleAddMaterial = () => {
     openedModal({
       title: 'Добавление материала',
-      children: <AddMaterialForm estimate={estimate} />,
+      children: <AddMaterialFormModal estimate={estimate} />,
       ifBlur: true,
     })
   }
