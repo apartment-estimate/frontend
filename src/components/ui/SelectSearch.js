@@ -97,16 +97,11 @@ const SelectSearch = ({ value, setValue, placeholder, openSelect, setOpenSelect 
 
       <div className={inputWrapper}>
         <Input value={value} setValue={handleChangeValue} />
-        {/*<ButtonIcon*/}
-        {/*  onClick={createMaterial}*/}
-        {/*  style={{ position: 'absolute', top: 0, right: 0, height: '100%', width: 40 }}*/}
-        {/*>*/}
-        {/*  <PlusIcon width={20} height={20} />*/}
-        {/*</ButtonIcon>*/}
       </div>
 
       <div className={`${optionsWrapper} ${(openSelect && (materialsOptions?.length > 0)) ? optionsOpen : ''}`}>
-        {materialsOptions.map((option) => {
+        {materialsOptions.map((option, index) => {
+          if (index > 4) return;
           return (
             <div
               className={optionItem}

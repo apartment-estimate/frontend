@@ -1,11 +1,13 @@
 import React, {useContext, useState} from 'react';
 import {createUseStyles} from "react-jss";
-import Input from "../ui/Input";
-import Button from "../ui/buttons/Button";
-import {useInput} from "../../hooks/input.hook";
-import SelectSearch from "../ui/SelectSearch";
-import {useEstimateHook} from "../../hooks/estimate.hook";
-import {ModalContext} from "../../state/context/modal.context";
+import Input from "../../ui/Input";
+import Button from "../../ui/buttons/Button";
+import {useInput} from "../../../hooks/input.hook";
+import SelectSearch from "../../ui/SelectSearch";
+import {useEstimateHook} from "../../../hooks/estimate.hook";
+import {ModalContext} from "../../../state/context/modal.context";
+import {stageList} from "../../../state/mock/еstimateMock";
+import Select from "../../ui/Select";
 
 const useStyles = createUseStyles((theme) => ({
   form: {
@@ -38,53 +40,44 @@ const useStyles = createUseStyles((theme) => ({
   },
 }))
 
-const AddMaterialForm = ({ estimate }) => {
+const AddMaterialFormModal = ({ estimate }) => {
   const { form, name_and_section, material_wrapper } = useStyles();
   const { changeEstimateApi } = useEstimateHook();
   const { closeModal } = useContext(ModalContext);
 
-  // const [nameCategory, setNameCategory] = useState('');
   const [materialSearch, setMaterialSearch] = useState('');
-  // const [section, setSection] = useState('');
+  const [stage, setStage] = useState('');
   const amount = useInput('', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
   const coeffIndividual = useInput('', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
 
   const [openSelectMaterialSearch, setOpenSelectMaterialSearch] = useState(false);
-
-  // const namesMaterials = materialsState.map(item => {
-  //   return item.name;
-  // })
-
-  // const addSectionEstimate = (e) => {
-  //   e.preventDefault();
-  //   // setEstimate({ ...estimate, sections: [ ...estimate.sections, nameCategory ] })
-  // }
 
   const addMaterial = async (e) => {
     e.preventDefault();
 
     const dataMaterial = {
       name: materialSearch, //Наименование основного материала
-      // stage: section, //Этап проведения строительных работ
+      stage: stage, //Этап проведения строительных работ
       amount: amount.value, // Количество основного материала
       coeffIndividual: coeffIndividual.value, //Индивидуальный повышающий коэффициент для основного материала
     }
     await changeEstimateApi({...estimate, items: [ ...estimate.items, dataMaterial] }, estimate.name);
     closeModal();
-    // await getEstimates();
   }
 
 
   return (
     <form className={form}>
 
-      {/*<div className={section_wrapper}>*/}
-      {/*  <Input value={nameCategory} setValue={(e) => setNameCategory(e.target.value)} placeholder="Название раздела" />*/}
-      {/*  <Button onClick={addSectionEstimate} name="Добавить раздел сметы" type="button" />*/}
-      {/*</div>*/}
-
         <div className={name_and_section}>
           <div className={name_and_section}>
+
+            <Select
+              value={stage}
+              setValue={setStage}
+              options={stageList}
+              placeholder="Выбрать раздел"
+            />
 
             <SelectSearch
               value={materialSearch}
@@ -93,13 +86,6 @@ const AddMaterialForm = ({ estimate }) => {
               setOpenSelect={setOpenSelectMaterialSearch}
               placeholder="Выбрать материал"
             />
-
-            {/*<Select*/}
-            {/*  value={section}*/}
-            {/*  setValue={setSection}*/}
-            {/*  options={[]}*/}
-            {/*  placeholder="Выбрать раздел"*/}
-            {/*/>*/}
 
           </div>
 
@@ -115,4 +101,4 @@ const AddMaterialForm = ({ estimate }) => {
   );
 };
 
-export default AddMaterialForm;
+export default AddMaterialFormModal;
