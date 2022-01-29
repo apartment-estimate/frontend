@@ -60,7 +60,7 @@ export const Layout = () => {
         <nav className={nav}>
           <NavLink className={link} to='/'>Главная</NavLink>
           <NavLink className={link} to='/material'>Материалы</NavLink>
-          <NavLink className={link} to='/estimate'>Смета</NavLink>
+          <NavLink className={link} to='/estimates'>Сметы</NavLink>
         </nav>
       </header>
 

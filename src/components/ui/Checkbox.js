@@ -1,7 +1,7 @@
 import React from 'react';
 import {createUseStyles} from "react-jss";
 
-const useStyles = createUseStyles(() => ({
+const useStyles = createUseStyles((theme) => ({
   check: {
     marginLeft: 30,
     position: 'relative',

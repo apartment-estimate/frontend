@@ -7,24 +7,26 @@ import ButtonIcon from "../components/ui/buttons/ButtonIcon";
 import {PlusIcon} from "../components/ui/icons/Plus.icon";
 import {ModalContext} from "../state/context/modal.context";
 
-const useStyles = createUseStyles(() => ({
+const useStyles = createUseStyles((theme) => ({
   wrapper: {
     display: 'grid',
     gridTemplateColumns: '1fr',
     gap: 30,
     marginTop: 50,
-  }
+  },
+  textButton: {
+    marginLeft: 10,
+  },
 }))
 
 const MaterialPage = () => {
-  const { wrapper } = useStyles();
+  const { wrapper, textButton } = useStyles();
   const { openedModal } = useContext(ModalContext);
 
   const handleCreateMaterial = () => {
     openedModal({
       title: 'Создание материала',
       children: <CreateMaterialForm />,
-      // children: <div>sadfsdfs</div>,
       ifBlur: true,
     })
   }
@@ -37,12 +39,12 @@ const MaterialPage = () => {
         <div>
           <ButtonIcon onClick={handleCreateMaterial}>
             <PlusIcon width={20} height={20} />
-            <div style={{ marginLeft: 10 }}>Добавить материал в базу</div>
+            <div className={textButton}>Добавить материал в базу</div>
           </ButtonIcon>
         </div>
 
-        {/*<CreateMaterialForm />*/}
         <TableMaterials />
+
       </div>
     </div>
   );

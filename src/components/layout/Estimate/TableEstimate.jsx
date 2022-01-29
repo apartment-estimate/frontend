@@ -1,44 +1,43 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import Table from "../../ui/Table/Table";
 import TableHead from "../../ui/Table/TableHead";
 import {estimateTableHeaderMock} from "../../../state/mock/materialsMock";
 import TableBodyEstimate from "./TableBodyEstimate";
-import {EstimateContext} from "../../../state/context/estimate.context";
-import {createUseStyles} from "react-jss";
+// import {createUseStyles} from "react-jss";
 
 
-const useStyles = createUseStyles(() => ({
-  cell_section: {
-    fontWeight: 700,
-    height: 40,
-  }
-}))
+// const useStyles = createUseStyles((theme) => ({
+//
+// }))
 
 const TableEstimate = () => {
-  const { cell_section } = useStyles();
-  const { estimate } = useContext(EstimateContext);
+  // const {  } = useStyles();
 
 
   return (
     <>
-      {(estimate.materials.length > 0 || estimate.sections.length > 0) && (
+      {/*{(materials.length > 0 || estimate.sections.length > 0) && (*/}
         <Table>
           <TableHead cellHeader={estimateTableHeaderMock} />
-          {estimate.sections.map((section) => {
-            return (
-              <tbody key={section}>
+          <tbody >
+            <TableBodyEstimate />
+          </tbody>
 
-                <tr style={{ textAlign: 'center' }}>
-                  <td className={cell_section}>{section}</td>
-                </tr>
+          {/*{materials.map((section) => {*/}
+          {/*  return (*/}
+          {/*    <tbody key={section}>*/}
 
-                <TableBodyEstimate estimates={estimate.materials} category={section} />
+          {/*      <tr style={{ textAlign: 'center' }}>*/}
+          {/*        <td className={cell_section}>{section}</td>*/}
+          {/*      </tr>*/}
 
-              </tbody>
-            )
-          })}
+          {/*      <TableBodyEstimate estimates={estimate.materials} category={section} />*/}
+
+          {/*    </tbody>*/}
+          {/*  )*/}
+          {/*})}*/}
         </Table>
-      )}
+      {/*)}*/}
     </>
   );
 };

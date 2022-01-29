@@ -4,17 +4,10 @@ export const EstimateContext = createContext();
 
 const EstimateContextProvider = ({ children }) => {
 
-  const [estimate, setEstimate] = useState({
-    name: null,
-    sections: [],
-    materials: [],
-    materialsSearch: [],
-    timerId: null,
-  });
-  // const [materials, setMaterials] = useState([]);
+  const [estimates, setEstimates] = useState([]);
 
   return (
-    <EstimateContext.Provider value={{ estimate, setEstimate }}>
+    <EstimateContext.Provider value={{ estimates, setEstimates }}>
       {children}
     </EstimateContext.Provider>
   );

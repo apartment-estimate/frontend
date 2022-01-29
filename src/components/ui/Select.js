@@ -57,7 +57,7 @@ const useStyles = createUseStyles((theme) => ({
   },
 }))
 
-const Select = ({ value, setValue, options, placeholder, positionOptions }) => {
+const Select = ({ value, setValue, options, placeholder, additionalStyles }) => {
   const { selectWrapper, select, optionsWrapper, optionItem, optionsOpen, backgroundSelect, label } = useStyles();
   const [openSelect, setOpenSelect] = useState(false);
 
@@ -80,7 +80,7 @@ const Select = ({ value, setValue, options, placeholder, positionOptions }) => {
       <span className={label}>{placeholder}</span>
       <div className={select} onClick={onOpenSelected}>{value}</div>
 
-      <div className={`${optionsWrapper} ${positionOptions || ''} ${openSelect && optionsOpen}`}>
+      <div className={`${optionsWrapper} ${additionalStyles || ''} ${openSelect && optionsOpen}`}>
         {options.map((option) => {
           return (
             <div className={optionItem} key={option} onClick={() => onCloseSelect(option)}>

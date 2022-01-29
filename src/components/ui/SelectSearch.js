@@ -79,7 +79,6 @@ const SelectSearch = ({ value, setValue, placeholder, openSelect, setOpenSelect 
   }
 
   const onChangeSelect = (name) => {
-    console.log(name)
     setAccess(false)
     setValue(name);
     setOpenSelect(false);
