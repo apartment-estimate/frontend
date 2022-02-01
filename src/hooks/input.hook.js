@@ -31,6 +31,10 @@ export const useInput = (initialValue, validations, isFilter) => {
     setChecked(e.target.checked);
   };
 
+  const onEdit = (name) => {
+    setValue(name);
+  }
+
   const reset = () => {
     setValue('');
   };
@@ -44,6 +48,7 @@ export const useInput = (initialValue, validations, isFilter) => {
     setValue,
     checked,
     onChange,
+    onEdit,
     onBlur,
     isDirty,
     reset,

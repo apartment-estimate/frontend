@@ -47,6 +47,7 @@ const ChangeMaterialFormModal = ({ estimate, changeItem }) => {
   const [stage, setStage] = useState(changeItem.stage || '');
   const amount = useInput(changeItem.amount || '', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
   const coeffIndividual = useInput(changeItem.coeffIndividual || 1, '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
+  const price = useInput(changeItem.priceNet || '', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
 
   const addMaterial = async (e) => {
     e.preventDefault();
@@ -56,6 +57,7 @@ const ChangeMaterialFormModal = ({ estimate, changeItem }) => {
         i.stage = stage
         i.amount = amount.value
         i.coeffIndividual = coeffIndividual.value
+        i.priceNet = price.value
       }
     })
 
@@ -82,6 +84,7 @@ const ChangeMaterialFormModal = ({ estimate, changeItem }) => {
           <div className={material_wrapper}>
             <Input value={amount.value} setValue={(e) => amount.onChange(e)} placeholder="Кол-во" />
             <Input value={coeffIndividual.value} setValue={(e) => coeffIndividual.onChange(e)} placeholder="Коэффициент" />
+            <Input value={price.value} setValue={(e) => price.onChange(e)} placeholder="Цена" />
           </div>
 
           <Button onClick={addMaterial} name="Изменить" type="button" />

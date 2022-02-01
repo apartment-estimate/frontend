@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {createUseStyles} from "react-jss";
 import Input from "../../ui/Input";
 import Button from "../../ui/buttons/Button";
@@ -31,7 +31,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   material_wrapper: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns: '1fr 1fr 1fr',
     alignItems: 'flex-end',
     gap: 20,
     width: '100%',
@@ -46,16 +46,21 @@ const AddAuxiliaryFormModal = ({ estimate, item }) => {
   const [addedMaterial, setAddedMaterial] = useState({});
   const [materialSearch, setMaterialSearch] = useState('');
   const amount = useInput('', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
+  const price = useInput('', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
 
   const [openSelectMaterialSearch, setOpenSelectMaterialSearch] = useState(false);
+
+  useEffect(() => {
+    price.onEdit(addedMaterial.priceNet)
+  }, [addedMaterial.priceNet]);
 
   const addMaterial = async (e) => {
     e.preventDefault();
 
     const auxiliary = {
-      // name: materialSearch, //Наименование сопутствующего материала
-      amount: amount.value, // Количество сопутствующего материала
       ...addedMaterial,
+      amount: amount.value, // Количество сопутствующего материала
+      priceNet: price.value, // Цена сопутствующего материала
     }
 
     estimate.items.map((i) => {
@@ -88,6 +93,7 @@ const AddAuxiliaryFormModal = ({ estimate, item }) => {
 
           <div className={material_wrapper}>
             <Input value={amount.value} setValue={(e) => amount.onChange(e)} placeholder="Кол-во" />
+            <Input value={price.value} setValue={(e) => price.onChange(e)} placeholder="Цена" />
             <Button onClick={addMaterial} name="Добавить материал" type="button" />
           </div>
 
