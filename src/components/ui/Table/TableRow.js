@@ -3,14 +3,16 @@ import {createUseStyles} from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
   row: {
-    // display: 'grid',
-    // gridTemplateColumns: '1fr 100px 150px 100px',
-    // gap: 1,
     cursor: 'pointer',
     transition: 'all .3s',
     '&:hover': {
       boxShadow: '0px 0px 4px 0px #d7d7d782',
-      backgroundColor: '#d7d7d782'
+      backgroundColor: '#d7d7d782',
+    },
+    '@media (max-width: 767px)': {
+      display: 'grid',
+      gridTemplateColumns: '1fr',
+      border: `1px solid ${theme.borderColor.main}`
     },
   },
 }))

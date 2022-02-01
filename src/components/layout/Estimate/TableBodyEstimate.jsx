@@ -13,18 +13,9 @@ import AddAuxiliaryFormModal from "./AddAuxiliaryFormModal";
 import ChangeAuxiliaryFormModal from "./ChangeAuxiliaryFormModal";
 import ChangeMaterialFormModal from "./ChangeMaterialFormModal";
 import DeleteAuxiliaryModal from "./DeleteAuxiliaryModal";
+import {modPrice} from "../../../utils/modPrice";
 
 const useStyles = createUseStyles((theme) => ({
-  cellStyles: {
-    '& svg': {
-      fill: 'gray',
-    },
-    '&:hover': {
-      '& svg': {
-        fill: 'red',
-      }
-    },
-  },
   iconWrapper: {
     display: 'flex',
     justifyContent: 'end',
@@ -33,11 +24,60 @@ const useStyles = createUseStyles((theme) => ({
   },
   auxiliaryCell: {
     paddingLeft: 60,
+    '@media (max-width: 767px)': {
+      paddingLeft: 16,
+      gridColumnStart: 1,
+      gridColumnEnd: 6,
+    },
+  },
+  cellName: {
+    '@media (max-width: 767px)': {
+      gridColumnStart: 1,
+      gridColumnEnd: 6,
+    },
+  },
+  cellAmount: {
+    width: 70,
+    '@media (max-width: 767px)': {
+      width: 'auto',
+    },
+  },
+  cellCoeffIndividual: {
+    width: 60,
+    '@media (max-width: 767px)': {
+      width: 'auto',
+    },
+  },
+  cellPrice: {
+    width: 70,
+    // '@media (max-width: 767px)': {
+    //   width: 'auto',
+    // },
+  },
+  cellButtonsContent: {
+    width: 70,
+    '@media (max-width: 767px)': {
+      width: 'auto',
+    },
+  },
+  cellButtons: {
+    '& svg': {
+      fill: 'gray',
+    },
+    '&:hover': {
+      '& svg': {
+        fill: theme.color.dim,
+      }
+    },
+    '@media (max-width: 420px)': {
+      gridColumnStart: 1,
+      gridColumnEnd: 6,
+    },
   },
 }))
 
 const TableBodyEstimate = ({ category }) => {
-  const { cellStyles, iconWrapper, auxiliaryCell } = useStyles();
+  const { iconWrapper, auxiliaryCell, iconPlus, cellName, cellAmount, cellCoeffIndividual, cellPrice, cellButtons, cellButtonsContent } = useStyles();
   const { openedModal } = useContext(ModalContext);
   const { estimates } = useContext(EstimateContext);
 
@@ -89,15 +129,18 @@ const TableBodyEstimate = ({ category }) => {
         return (
           <Fragment key={item._id}>
             <TableRow>
-              <TableCell textCell={item.name} position="start" />
-              <TableCell width={50} textCell={item.amount} position="center" />
-              <TableCell width={60} textCell={item.coeffIndividual} position="center" />
-              <TableCell width={100} textCell={item.priceTotal} position="end" />
-              <TableCell width={70} styles={cellStyles} position="center" >
+              <TableCell stylesTd={cellName} textCell={item.name} position="start" />
+              <TableCell contentContent={cellAmount} textCell={`${item.amount} ${item.unit}`} position="center" />
+              <TableCell contentContent={cellCoeffIndividual} textCell={item.coeffIndividual} position="center" />
+              <TableCell contentContent={cellPrice} textCell={`${modPrice(item.priceNet)}`} position="end" />
+              <TableCell contentContent={cellPrice} textCell={`${modPrice(item.totalNet)}`} position="end" />
+              <TableCell contentContent={cellButtonsContent} stylesTd={cellButtons} position="center" >
                 <div className={iconWrapper}>
-                  <ButtonIcon onClick={() => onAddAuxiliaryMaterial(item)}>
-                    <PlusIcon width={16} height={16} />
-                  </ButtonIcon>
+                  {item.purpose === 'basic' && (
+                    <ButtonIcon styles={iconPlus} onClick={() => onAddAuxiliaryMaterial(item)}>
+                      <PlusIcon width={16} height={16} />
+                    </ButtonIcon>
+                  )}
                   <ButtonIcon onClick={() => onHandleChangeMaterial(item)}>
                     <EditIcon width={16} height={16} />
                   </ButtonIcon>
@@ -110,11 +153,12 @@ const TableBodyEstimate = ({ category }) => {
             {item.auxiliary.map((itemAuxiliary) => {
               return (
                 <TableRow key={i++}>
-                  <TableCell textCell={itemAuxiliary.name} position="start" styles={auxiliaryCell} />
-                  <TableCell width={50} textCell={itemAuxiliary.amount} position="center" />
-                  <TableCell width={60} textCell={itemAuxiliary.coeffIndividual} position="center" />
-                  <TableCell width={100} textCell={itemAuxiliary.priceNet} position="end" />
-                  <TableCell width={70} styles={cellStyles} position="center" >
+                  <TableCell stylesTd={auxiliaryCell} textCell={itemAuxiliary.name} position="start" />
+                  <TableCell contentContent={cellAmount} textCell={`${itemAuxiliary.amount} ${itemAuxiliary.unit}`} position="center" />
+                  <TableCell contentContent={cellCoeffIndividual} textCell={itemAuxiliary.coeffIndividual} position="center" />
+                  <TableCell contentContent={cellPrice} textCell={itemAuxiliary.priceNet} position="end" />
+                  <TableCell contentContent={cellPrice} textCell={itemAuxiliary.totalNet} position="end" />
+                  <TableCell contentContent={cellButtonsContent} stylesTd={cellButtons} position="center" >
                     <div className={iconWrapper}>
                       <ButtonIcon onClick={() => onChangeAuxiliaryMaterial(item, itemAuxiliary)}>
                         <EditIcon width={16} height={16} />

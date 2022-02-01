@@ -30,8 +30,9 @@ export const useEstimateHook = () => {
 
     if (request.status === 200) return request;
     if (request.status !== 200) {
+      console.log(request)
       visibleAlert({
-       children: <Alert code={request.status} text="Не удалось создать смету" />
+       children: <Alert code={request.status} text={request.message} />
       })
     }
     await getEstimates();
@@ -49,8 +50,10 @@ export const useEstimateHook = () => {
         children: <Alert code={request.status} text="Изменено" />
       })
       await getEstimates(name);
+      setLoading(false);
       return request;
     }
+
     if (request.status !== 200) {
       visibleAlert({
         children: <Alert code={request.status} text="Не удалось изменить" />

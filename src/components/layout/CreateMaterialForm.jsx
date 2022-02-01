@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Input from "../ui/Input";
 import Button from "../ui/buttons/Button";
 import {createUseStyles} from "react-jss";
@@ -9,6 +9,7 @@ import {units} from "../../state/mock/unitsMock";
 import {useMaterialsHook} from "../../hooks/materials.hook";
 import {ModalContext} from "../../state/context/modal.context";
 import {Checkbox} from "../ui/Checkbox";
+import {MaterialContext} from "../../state/context/materials.context";
 
 const useStyles = createUseStyles((theme) => ({
   form: {
@@ -32,12 +33,13 @@ const CreateMaterialForm = ({ changeMaterial }) => {
   const { form, group2, optionPosition } = useStyles();
   const { createMaterials, changeMaterialApi } = useMaterialsHook();
   const { closeModal } = useContext(ModalContext);
+  const { materialsState } = useContext(MaterialContext);
 
   const name = useInput(changeMaterial?.name || '');
   const category = useInput(changeMaterial?.category || '');
   const [unit, setUnit] = useState(changeMaterial?.unit || '');
   const priceNet = useInput(changeMaterial?.priceNet || '', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
-  const [purpose, setPurpose] = useState((changeMaterial?.purpose === 'auxiliary' && true) || false);
+  const [purpose, setPurpose] = useState((changeMaterial?.purpose === 'basic' && true) || false);
 
   const noCreateMaterial = async (e) => {
     e.preventDefault();
@@ -46,7 +48,7 @@ const CreateMaterialForm = ({ changeMaterial }) => {
       category: category.value,
       priceNet: +priceNet.value,
       _id: changeMaterial ? changeMaterial._id : null,
-      purpose: purpose ? 'auxiliary' : 'basic',
+      purpose: purpose ? 'basic' : 'auxiliary',
       unit,
     }
     if (changeMaterial) {
@@ -56,6 +58,15 @@ const CreateMaterialForm = ({ changeMaterial }) => {
     }
     closeModal();
   };
+
+  // const [listMaterialsSections, setListMaterialsSections] = useState([]);
+  //
+  // useEffect(() => {
+  //   const listMaterialsSections = materialsState.map((item) => {
+  //     return item.category
+  //   })
+  //   setListMaterialsSections([...new Set(listMaterialsSections)])
+  // }, [materialsState])
 
   return (
     <form className={form} action="">
@@ -69,7 +80,7 @@ const CreateMaterialForm = ({ changeMaterial }) => {
           handlerChange={() => setPurpose(!purpose)}
         >
           <span>
-            {purpose ? "Может содержать в себе сопутствующие материалы" : "Не может содержать в себе сопутствующие материалы" }
+            {purpose ? "Может содержать в себе сопутствующие материалы" : "Не может содержать в себе сопутствующие материалы"}
         </span>
         </Checkbox>
       </div>

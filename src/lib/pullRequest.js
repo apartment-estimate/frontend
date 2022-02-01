@@ -1,1 +1,1 @@
-export const pullRequest = 1.7;
+export const pullRequest = 1.8;

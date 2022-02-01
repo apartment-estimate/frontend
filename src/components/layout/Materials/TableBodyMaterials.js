@@ -11,25 +11,47 @@ import CreateMaterialForm from "../CreateMaterialForm";
 import DeleteMaterialModal from "./DeleteMaterialModal";
 
 const useStyles = createUseStyles((theme) => ({
-  cellStyles: {
+  iconWrapper: {
+    display: 'flex',
+    justifyContent: 'end',
+    alignItems: 'center',
+  },
+  cellName: {
+    '@media (max-width: 767px)': {
+      gridColumnStart: 1,
+      gridColumnEnd: 5,
+    },
+  },
+  cellPrice: {
+    width: 70,
+    // '@media (max-width: 767px)': {
+    //   width: 'auto',
+    // },
+  },
+  cellButtonsContent: {
+    width: 70,
+    '@media (max-width: 767px)': {
+      width: 'auto',
+    },
+  },
+  cellButtons: {
     '& svg': {
       fill: 'gray',
     },
     '&:hover': {
       '& svg': {
-        fill: 'red',
+        fill: theme.color.dim,
       }
     },
+    // '@media (max-width: 420px)': {
+    //   gridColumnStart: 1,
+    //   gridColumnEnd: 5,
+    // },
   },
-  iconWrapper: {
-    display: 'flex',
-    justifyContent: 'end',
-    alignItems: 'center',
-  }
 }))
 
 const TableBodyMaterials = ({ materials }) => {
-  const { cellStyles, iconWrapper } = useStyles();
+  const { iconWrapper, cellPrice, cellButtonsContent, cellButtons, cellName } = useStyles();
   const { openedModal } = useContext(ModalContext);
 
   const onHandleChangeMaterial = (material) => {
@@ -52,10 +74,10 @@ const TableBodyMaterials = ({ materials }) => {
     {materials.map((row) => {
       return (
         <TableRow key={row.name}>
-          <TableCell textCell={row.name} position="start" />
+          <TableCell textCell={row.name} stylesTd={cellName} position="start" />
           <TableCell textCell={row.unit} position="center" />
-          <TableCell width={100} textCell={modPrice(row.priceNet)} position="end" />
-          <TableCell width={50} styles={cellStyles} position="center" >
+          <TableCell contentContent={cellPrice} textCell={modPrice(row.priceNet)} position="end" />
+          <TableCell contentContent={cellButtonsContent} stylesTd={cellButtons} position="center" >
             <div className={iconWrapper}>
               <ButtonIcon onClick={() => onHandleChangeMaterial(row)}>
                 <EditIcon width={16} height={16} />

@@ -7,15 +7,16 @@ const useStyles = createUseStyles((theme) => ({
   },
   content: {
     display: 'flex',
-  }
+    justifyContent: ({position}) => position,
+  },
 }))
 
-const TableCell = ({ children, styles, textCell, position, width }) => {
-  const { cell, content } = useStyles();
+const TableCell = ({ children, stylesTd, contentContent, textCell, ...props }) => {
+  const { cell, content } = useStyles({ ...props });
 
   return (
-    <td className={`${cell} ${styles || ''}`}>
-      <div className={content} style={{ justifyContent: position, width: `${width}px` }}>
+    <td className={`${cell} ${stylesTd || ''}`}>
+      <div className={`${content} ${contentContent || ''}`}>
         {textCell}
         {children}
       </div>

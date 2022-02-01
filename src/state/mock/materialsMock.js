@@ -10,6 +10,7 @@ export const estimateTableHeaderMock = [
   'Материал',
   'Кол-во',
   'Кoэф-т',
+  'Цена',
   'Сумма',
   'Действия',
 ]

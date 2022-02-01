@@ -1,10 +1,14 @@
 import React, {useContext} from 'react';
-import {createUseStyles} from "react-jss";
+import {createUseStyles, useTheme} from "react-jss";
 import {NavLink} from "react-router-dom";
 import {DeletedIcon} from "./icons/Deleted.icon";
 import ButtonIcon from "./buttons/ButtonIcon";
 import {ModalContext} from "../../state/context/modal.context";
 import DeleteEstimateModal from "../layout/Estimate/DeleteEstimateModal";
+import {CopyIcon} from "./icons/Copy.icon";
+import CreateCopyEstimateModal from "../layout/Estimate/CreateCopyEstimateModal";
+import {EditIcon} from "./icons/Edit.icon";
+import CreateEstimateForm from "../layout/Estimate/CreateEstimateForm";
 
 const useStyles = createUseStyles((theme) => ({
   cardContainer: {
@@ -26,16 +30,37 @@ const useStyles = createUseStyles((theme) => ({
     fontSize: 16,
     fontWeight: 700,
   },
-  deleteIcon: {
+  buttonsBlock: {
     position: 'absolute',
+    display: 'flex',
     bottom: 20,
     right: 20,
+  },
+  text: {
+    margin: 0,
   },
 }))
 
 const CardEstimate = ({ item }) => {
-  const { cardContainer, head, deleteIcon } = useStyles();
+  const { cardContainer, head, buttonsBlock, text } = useStyles();
   const { openedModal } = useContext(ModalContext);
+  const theme = useTheme();
+
+  const onCreateCopyEstimate = (e) => {
+    e.preventDefault();
+    openedModal({
+      title: `Новая смета на основе "${item.name}"`,
+      children: <CreateCopyEstimateModal estimate={item} />,
+    })
+  }
+
+  const onChangeEstimate = (e) => {
+    e.preventDefault();
+    openedModal({
+      title: item.name,
+      children: <CreateEstimateForm changeEstimate={item} />,
+    })
+  }
 
   const onHandleDeleteEstimate = (e, estimate) => {
     e.preventDefault();
@@ -47,12 +72,21 @@ const CardEstimate = ({ item }) => {
 
   return (
     <NavLink to={`/estimates/${item.name}`} className={cardContainer} >
+
       <h3 className={head}>{item.name}</h3>
-      <p>{item.residence}</p>
-      <p>{item.layout}</p>
-      <div className={deleteIcon}>
+      <p className={text}>{item.residence}</p>
+      <p className={text}>{item.layout}</p>
+      <p >{item.customer}</p>
+
+      <div className={buttonsBlock}>
+        <ButtonIcon onClick={(e) => onChangeEstimate(e) }>
+          <EditIcon width={16} height={16} fill={theme.color.dim} />
+        </ButtonIcon>
+        <ButtonIcon onClick={(e) => onCreateCopyEstimate(e) }>
+          <CopyIcon width={16} height={16} fill={theme.color.dim} />
+        </ButtonIcon>
         <ButtonIcon onClick={(e) => onHandleDeleteEstimate(e, item) }>
-          <DeletedIcon width={16} height={16} fill="red" />
+          <DeletedIcon width={16} height={16} fill={theme.color.dim} />
         </ButtonIcon>
       </div>
     </NavLink>

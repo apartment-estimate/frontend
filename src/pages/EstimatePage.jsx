@@ -19,11 +19,21 @@ const useStyles = createUseStyles((theme) => ({
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
     gap: 20,
+  },
+  iconPlus: {
+    '& svg': {
+      fill: theme.color.dim,
+    },
+    '&:hover': {
+      '& svg': {
+        fill: theme.color.dim,
+      }
+    },
   }
 }))
 
 const EstimatePage = () => {
-  const { wrapper_estimatePage, wrapper_estimateCards } = useStyles();
+  const { wrapper_estimatePage, wrapper_estimateCards, iconPlus } = useStyles();
   const { openedModal } = useContext(ModalContext);
 
   const { getEstimates } = useEstimateHook();
@@ -46,7 +56,7 @@ const EstimatePage = () => {
       <div className={wrapper_estimatePage}>
 
         <div>
-          <ButtonIcon onClick={handleCreateMaterial}>
+          <ButtonIcon styles={iconPlus} onClick={handleCreateMaterial}>
             <PlusIcon width={20} height={20} />
             <div style={{ marginLeft: 10 }}>Создать новую смету</div>
           </ButtonIcon>

@@ -6,6 +6,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 
 import { Layout } from "./components/layout/Layout";
 import EstimateCreatePage from "./pages/EstimateCreatePage";
+import EstimateToPrint from "./pages/EstimateToPrint";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="material" element={ <MaterialPage /> } />
           <Route path="estimates" element={ <EstimatePage /> } />
           <Route path="estimates/:name" element={ <EstimateCreatePage /> } />
+          <Route path="estimates/:name/print" element={ <EstimateToPrint /> } />
           <Route path="*" element={ <NotFoundPage /> } />
         </Route>
       </Routes>

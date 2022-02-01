@@ -3,12 +3,11 @@ import {createUseStyles} from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
   thead: {
-
+    '@media (max-width: 767px)': {
+      display: 'none',
+    },
   },
   row: {
-    // display: 'grid',
-    // gridTemplateColumns: '1fr 100px 150px 100px',
-    // gap: 1,
     cursor: 'pointer',
     transition: 'all .3s',
     borderBottom: '1px solid #000'
