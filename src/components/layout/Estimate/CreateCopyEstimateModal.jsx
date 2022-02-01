@@ -24,55 +24,35 @@ const useStyles = createUseStyles((theme) => ({
   }
 }))
 
-const CreateEstimateForm = ({ changeEstimate }) => {
+const CreateCopyEstimateModal = ({ estimate }) => {
   const { nameWrapper, input, selectStyle } = useStyles();
-  const { createEstimate, changeEstimateApi } = useEstimateHook();
+  const { createEstimate } = useEstimateHook();
   const { closeModal } = useContext(ModalContext);
   const navigate = useNavigate();
 
-  const name = useInput(changeEstimate?.name || '');
-  const residence = useInput(changeEstimate?.residence || '');
-  const [layout, setLayout] = useState(changeEstimate?.layout || '');
-  const style = useInput(changeEstimate?.style || '');
-  const coeffCommon = useInput(changeEstimate?.coeffCommon || '', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
-  const customer = useInput(changeEstimate?.customer || '');
+  const name = useInput('');
+  const residence = useInput(estimate.residence || '');
+  const [layout, setLayout] = useState(estimate.layout || '');
+  const style = useInput(estimate.style || '');
+  const coeffCommon = useInput(estimate.coeffCommon || '', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
+  const customer = useInput(estimate?.customer || '');
 
   const onCreateEstimate = async () => {
-    const estimate = {
+    const copyEstimate = {
+      ...estimate,
       name: name.value,
       residence: residence.value,
-      style: style.value,
       coeffCommon: coeffCommon.value,
+      style: style.value,
       customer: customer.value,
       layout,
-      date: new Date(),
     }
 
-    if (changeEstimate) {
-      const newEstimate = {
-        ...changeEstimate,
-        name: name.value,
-        residence: residence.value,
-        style: style.value,
-        coeffCommon: coeffCommon.value,
-        customer: customer.value,
-        layout,
-        date: new Date(),
-      }
-      const res = await changeEstimateApi(newEstimate, changeEstimate.name);
-      if (res.status === 200) {
-        navigate(`estimates/${res.data.estimate.name}`, {replace: true});
-        closeModal();
-      }
-      return
-    }
-
-    const res = await createEstimate(estimate);
+    const res = await createEstimate(copyEstimate);
     if (res.status === 200) {
       navigate(`/estimates/${res.data.estimate.name}`, {replace: true});
       closeModal();
     }
-
   }
 
   return (
@@ -127,4 +107,4 @@ const CreateEstimateForm = ({ changeEstimate }) => {
   );
 };
 
-export default CreateEstimateForm;
+export default CreateCopyEstimateModal;

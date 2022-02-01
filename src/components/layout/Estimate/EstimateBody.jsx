@@ -1,20 +1,26 @@
 import React from 'react';
-// import {createUseStyles} from "react-jss";
+import {createUseStyles} from "react-jss";
 import TitlePage from "../../ui/TitlePage";
 
-// const useStyles = createUseStyles(() => ({
-//
-// }))
+const useStyles = createUseStyles((theme) => ({
+  text: {
+    '@media (max-width: 767px)': {
+      fontSize: 14,
+      margin: '3px 0',
+    },
+  },
+}))
 
 const EstimateBody = ({ estimate }) => {
-  // const { nameReadyWrapper } = useStyles();
+  const { text } = useStyles();
 
   return (
     <>
       <TitlePage title={estimate.name} />
-      <p>{estimate.residence}</p>
-      <p>{estimate.layout}</p>
-      <p>Поправочный коэффициент по смете - {estimate.coeffCommon}</p>
+      <p className={text}>{estimate.residence}</p>
+      <p className={text}>{estimate.layout}</p>
+      <p className={text}>Поправочный коэффициент по смете - {estimate.coeffCommon}</p>
+      <p className={text}>Клиент - {estimate.customer}</p>
     </>
   );
 };

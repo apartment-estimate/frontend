@@ -46,7 +46,7 @@ const useStyles = createUseStyles((theme) => ({
   modal: {
     position: 'relative',
     backgroundColor: theme.color.main,
-    width: 600,
+    width: 800,
     padding: 24,
     borderRadius: 20,
     boxShadow: `0 0 25px ${theme.color.dim60}`,
@@ -61,6 +61,7 @@ const useStyles = createUseStyles((theme) => ({
     '@media (max-width: 499px)': {
       width: '100%',
       height: '100%',
+      borderRadius: 0,
     },
     // [breakpoints.down('sm')]: {
     //   width: '100%',

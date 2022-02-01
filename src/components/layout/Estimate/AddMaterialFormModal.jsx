@@ -45,10 +45,11 @@ const AddMaterialFormModal = ({ estimate }) => {
   const { changeEstimateApi } = useEstimateHook();
   const { closeModal } = useContext(ModalContext);
 
+  const [addedMaterial, setAddedMaterial] = useState({});
   const [materialSearch, setMaterialSearch] = useState('');
   const [stage, setStage] = useState('');
   const amount = useInput('', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
-  const coeffIndividual = useInput('', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
+  const coeffIndividual = useInput(1, '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
 
   const [openSelectMaterialSearch, setOpenSelectMaterialSearch] = useState(false);
 
@@ -56,10 +57,11 @@ const AddMaterialFormModal = ({ estimate }) => {
     e.preventDefault();
 
     const dataMaterial = {
-      name: materialSearch, //Наименование основного материала
+      // name: materialSearch, //Наименование основного материала
       stage: stage, //Этап проведения строительных работ
       amount: amount.value, // Количество основного материала
       coeffIndividual: coeffIndividual.value, //Индивидуальный повышающий коэффициент для основного материала
+      ...addedMaterial,
     }
     await changeEstimateApi({...estimate, items: [ ...estimate.items, dataMaterial] }, estimate.name);
     closeModal();
@@ -85,6 +87,7 @@ const AddMaterialFormModal = ({ estimate }) => {
               openSelect={openSelectMaterialSearch}
               setOpenSelect={setOpenSelectMaterialSearch}
               placeholder="Выбрать материал"
+              setAddedMaterial={setAddedMaterial}
             />
 
           </div>

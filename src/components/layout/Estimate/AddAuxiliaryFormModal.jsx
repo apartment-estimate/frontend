@@ -43,6 +43,7 @@ const AddAuxiliaryFormModal = ({ estimate, item }) => {
   const { changeEstimateApi } = useEstimateHook();
   const { closeModal } = useContext(ModalContext);
 
+  const [addedMaterial, setAddedMaterial] = useState({});
   const [materialSearch, setMaterialSearch] = useState('');
   const amount = useInput('', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
 
@@ -52,8 +53,9 @@ const AddAuxiliaryFormModal = ({ estimate, item }) => {
     e.preventDefault();
 
     const auxiliary = {
-      name: materialSearch, //Наименование сопутствующего материала
+      // name: materialSearch, //Наименование сопутствующего материала
       amount: amount.value, // Количество сопутствующего материала
+      ...addedMaterial,
     }
 
     estimate.items.map((i) => {
@@ -73,11 +75,13 @@ const AddAuxiliaryFormModal = ({ estimate, item }) => {
           <div className={name_and_section}>
 
             <SelectSearch
+              purpose
               value={materialSearch}
               setValue={setMaterialSearch}
               openSelect={openSelectMaterialSearch}
               setOpenSelect={setOpenSelectMaterialSearch}
               placeholder="Выбрать сопутствующий материал"
+              setAddedMaterial={setAddedMaterial}
             />
 
           </div>

@@ -46,7 +46,7 @@ const ChangeMaterialFormModal = ({ estimate, changeItem }) => {
 
   const [stage, setStage] = useState(changeItem.stage || '');
   const amount = useInput(changeItem.amount || '', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
-  const coeffIndividual = useInput(changeItem.coeffIndividual || '', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
+  const coeffIndividual = useInput(changeItem.coeffIndividual || 1, '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
 
   const addMaterial = async (e) => {
     e.preventDefault();

@@ -3,7 +3,10 @@ import {createUseStyles} from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
   table: {
-    width: '100%'
+    width: '100%',
+    '@media (max-width: 767px)': {
+      fontSize: 12,
+    },
   },
 }))
 

@@ -54,41 +54,54 @@ const useStyles = createUseStyles((theme) => ({
   }
 }))
 
-const SelectSearch = ({ value, setValue, placeholder, openSelect, setOpenSelect }) => {
+const SelectSearch = ({ value, setValue, placeholder, openSelect, setOpenSelect, purpose, setAddedMaterial }) => {
   const { selectWrapper, optionsWrapper, optionItem, optionsOpen, backgroundSelect, label, inputWrapper } = useStyles();
-  // const [nameValue, setNameValue] = useState('');
   const [materialsOptions, setMaterialsOptions] = useState([]);
   const [access, setAccess] = useState(true);
+
 
   const onSearch = useCallback(async (search) => {
     if (!access) return;
     setOpenSelect(true);
     const res = await httpRequest('GET', `materials?search=${search}`);
-    setMaterialsOptions(res.data.materials)
-  }, [access, setOpenSelect])
+
+    const arrAuxiliary = res.data.materials.filter(item => item.purpose === 'auxiliary');
+    const arrBasic = res.data.materials.filter(item => item.purpose === 'basic');
+
+    if (purpose) {
+      setMaterialsOptions(arrAuxiliary);
+      return;
+    }
+
+    setMaterialsOptions(arrBasic)
+  }, [access, purpose, setOpenSelect])
+
 
   useEffect(() => {
-    if (value.length > 0) {
-      onSearch(value).then();
-    }
+    if (value.length > 0) onSearch(value).then();
   }, [value, onSearch])
+
 
   const handleChangeValue = async (e) => {
     setAccess(true)
     setValue(e.target.value);
   }
 
+
   const onChangeSelect = (name) => {
+    setAddedMaterial(name) // сохраняем выбранный материал
     setAccess(false)
-    setValue(name);
+    setValue(name.name);
     setOpenSelect(false);
     setMaterialsOptions([]);
   }
+
 
   const onCloseToBackdrop = (e) => {
     e.stopPropagation();
     setOpenSelect(false)
   }
+
 
   return (
     <div className={selectWrapper}>
@@ -106,7 +119,7 @@ const SelectSearch = ({ value, setValue, placeholder, openSelect, setOpenSelect 
             <div
               className={optionItem}
               key={option._id}
-              onClick={() => onChangeSelect(option.name)}>
+              onClick={() => onChangeSelect(option)}>
               {option.name}
             </div>
           )

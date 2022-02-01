@@ -28,7 +28,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   nav: {
     display: 'flex',
-    gap: 50,
+    // gap: 50,
   },
   link: {
     fontWeight: 700,
@@ -36,7 +36,10 @@ const useStyles = createUseStyles((theme) => ({
     borderRadius: 2,
     '&:hover': {
       textDecoration: 'underline',
-    }
+    },
+    '@media (max-width: 767px)': {
+      fontSize: 12,
+    },
   },
   main: {
     padding: 30,

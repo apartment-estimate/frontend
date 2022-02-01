@@ -4,7 +4,7 @@ import Button from "../../ui/buttons/Button";
 import {useMaterialsHook} from "../../../hooks/materials.hook";
 import {ModalContext} from "../../../state/context/modal.context";
 
-const useStyles = createUseStyles(() => ({
+const useStyles = createUseStyles((theme) => ({
   wrapper: {
     display: 'grid',
     gridTemplateColumns: '1fr',

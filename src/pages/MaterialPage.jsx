@@ -17,10 +17,20 @@ const useStyles = createUseStyles((theme) => ({
   textButton: {
     marginLeft: 10,
   },
+  iconPlus: {
+    '& svg': {
+      fill: theme.color.dim,
+    },
+    '&:hover': {
+      '& svg': {
+        fill: theme.color.dim,
+      }
+    },
+  }
 }))
 
 const MaterialPage = () => {
-  const { wrapper, textButton } = useStyles();
+  const { wrapper, textButton, iconPlus } = useStyles();
   const { openedModal } = useContext(ModalContext);
 
   const handleCreateMaterial = () => {
@@ -37,7 +47,7 @@ const MaterialPage = () => {
       <div className={wrapper}>
 
         <div>
-          <ButtonIcon onClick={handleCreateMaterial}>
+          <ButtonIcon styles={iconPlus} onClick={handleCreateMaterial}>
             <PlusIcon width={20} height={20} />
             <div className={textButton}>Добавить материал в базу</div>
           </ButtonIcon>

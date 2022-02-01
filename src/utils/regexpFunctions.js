@@ -16,7 +16,7 @@ export function returnNumber(string) {
     .replace(/\D/ig, function(){
       let dotCount = 0;
       return function($0){
-        if($0 === ',' && !dotCount) {
+        if($0 === '.' && !dotCount) {
           dotCount += 1;
           return $0;
         }
