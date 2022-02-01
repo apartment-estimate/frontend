@@ -42,13 +42,13 @@ const useStyles = createUseStyles((theme) => ({
   },
 }))
 
-const Input = ({ placeholder, value, setValue }) => {
+const Input = ({ placeholder, value, setValue, disabled }) => {
   const { label_wrapper, input, labelInput } = useStyles();
 
   return (
     <label className={label_wrapper}>
       <span className={labelInput}>{placeholder}</span>
-      <input className={input} type="text" value={value} onChange={setValue}/>
+      <input disabled={disabled} className={input} type="text" value={value} onChange={setValue}/>
     </label>
   );
 };

@@ -30,7 +30,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   material_wrapper: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns: '1fr 1fr 1fr',
     alignItems: 'flex-end',
     gap: 20,
     width: '100%',
@@ -43,6 +43,7 @@ const ChangeAuxiliaryFormModal = ({ estimate, item, changeItem }) => {
   const { closeModal } = useContext(ModalContext);
 
   const amount = useInput(changeItem.amount || '', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
+  const price = useInput(changeItem.priceNet || '', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
 
   const addMaterial = async (e) => {
     e.preventDefault();
@@ -52,6 +53,8 @@ const ChangeAuxiliaryFormModal = ({ estimate, item, changeItem }) => {
         i.auxiliary.map((auxiliaryItem) => {
           if (auxiliaryItem._id === changeItem._id) {
             auxiliaryItem.amount = amount.value
+            auxiliaryItem.priceNet = price.value
+
           }
         })
       }
@@ -68,6 +71,7 @@ const ChangeAuxiliaryFormModal = ({ estimate, item, changeItem }) => {
 
           <div className={material_wrapper}>
             <Input value={amount.value} setValue={(e) => amount.onChange(e)} placeholder="Кол-во" />
+            <Input value={price.value} setValue={(e) => price.onChange(e)} placeholder="Цена" />
             <Button onClick={addMaterial} name="Изменить" type="button" />
           </div>
 

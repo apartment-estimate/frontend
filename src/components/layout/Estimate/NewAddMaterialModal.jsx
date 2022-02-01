@@ -38,7 +38,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   material_wrapper: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr',
+    gridTemplateColumns: '1fr 1fr 1fr 1fr',
     alignItems: 'flex-end',
     gap: 20,
     width: '100%',
@@ -100,21 +100,22 @@ const AddMaterialFormModal = ({ estimate }) => {
   const [addedMaterial, setAddedMaterial] = useState({});
 
 
-  // const [materialSearch, setMaterialSearch] = useState('');
+  const [unit, setUnit] = useState('');
 
   const amount = useInput('', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
   const coeffIndividual = useInput(1, '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
+  const price = useInput('', '', { isFilter: true, additionalProcessing: 'onlyNumbers'});
 
-  // const [openSelectMaterialSearch, setOpenSelectMaterialSearch] = useState(false);
 
   const addMaterial = async (e) => {
     e.preventDefault();
 
     const dataMaterial = {
+      ...addedMaterial, // выбранный материал
       stage: stage, //Этап проведения строительных работ
       amount: amount.value, // Количество основного материала
       coeffIndividual: coeffIndividual.value, //Индивидуальный повышающий коэффициент для основного материала
-      ...addedMaterial, // выбранный материал
+      priceNet: price.value, // цена материала
     }
     await changeEstimateApi({...estimate, items: [ ...estimate.items, dataMaterial] }, estimate.name);
     closeModal();
@@ -139,6 +140,8 @@ const AddMaterialFormModal = ({ estimate }) => {
 
   const selectedNameMaterial = (item) => {
     setAddedMaterial(item);
+    setUnit(item.unit);
+    price.onEdit(item.priceNet);
     setOpenNameMaterial(false);
   }
 
@@ -150,7 +153,7 @@ const AddMaterialFormModal = ({ estimate }) => {
       return item.category
     })
     setListMaterialsSections([...new Set(listMaterialsSections)])
-  }, [listMaterials])
+  }, [listMaterials]);
 
   return (
     <form className={form}>
@@ -204,7 +207,7 @@ const AddMaterialFormModal = ({ estimate }) => {
         {listMaterialsSections.map((category) => {
           if (load) return <div>Загрузка</div>
           return (
-            <div>
+            <div key={category}>
               <div style={{ textAlign: 'start', fontWeight: 700 }}>{category}</div>
               <div>
                 {listMaterials.map((item) => {
@@ -247,9 +250,10 @@ const AddMaterialFormModal = ({ estimate }) => {
         {/*  </div>*/}
 
       <div className={material_wrapper}>
+        <Input disabled value={unit} setValue={() => setUnit('')} placeholder="Ед.изм." />
         <Input value={amount.value} setValue={(e) => amount.onChange(e)} placeholder="Кол-во" />
         <Input value={coeffIndividual.value} setValue={(e) => coeffIndividual.onChange(e)} placeholder="Коэффициент" />
-
+        <Input value={price.value} setValue={(e) => price.onChange(e)} placeholder="Цена" />
       </div>
 
       <Button onClick={addMaterial} name="Добавить материал" type="button" />
