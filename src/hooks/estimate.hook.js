@@ -34,6 +34,7 @@ export const useEstimateHook = () => {
       visibleAlert({
        children: <Alert code={request.status} text={request.message} />
       })
+      return request
     }
     await getEstimates();
     setLoading(false);
@@ -43,7 +44,7 @@ export const useEstimateHook = () => {
 
   const changeEstimateApi = useCallback( async (data, name) => {
     setLoading(true);
-    const request = await httpRequest('PUT',  `estimates/${name}`, data);
+    const request = await httpRequest('PUT',  `estimates/${encodeURIComponent(name)}`, data);
 
     if (request.status === 200) {
       visibleAlert({
@@ -64,7 +65,7 @@ export const useEstimateHook = () => {
 
 
   const deletedEstimate = async (name) => {
-    const request = await httpRequest('DELETE', `estimates/${name}`);
+    const request = await httpRequest('DELETE', `estimates/${encodeURIComponent(name)}`);
     if (request.status === 200) {
       visibleAlert({
         children: <Alert code={request.status} text="Удалено" />

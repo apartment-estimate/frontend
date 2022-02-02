@@ -40,13 +40,16 @@ const CreateCopyEstimateModal = ({ estimate }) => {
   const onCreateEstimate = async () => {
     const copyEstimate = {
       ...estimate,
+      date: new Date(),
       name: name.value,
       residence: residence.value,
       coeffCommon: coeffCommon.value,
       style: style.value,
       customer: customer.value,
       layout,
-    }
+    };
+    delete copyEstimate._id;
+    delete copyEstimate.__v;
 
     const res = await createEstimate(copyEstimate);
     if (res.status === 200) {

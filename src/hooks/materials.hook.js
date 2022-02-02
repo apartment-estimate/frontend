@@ -12,7 +12,7 @@ export const useMaterialsHook = () => {
 
   const getMaterials = useCallback( async (search = '') => {
     setLoading(true);
-    const request = await httpRequest('GET',  `materials?search=${search}`);
+    const request = await httpRequest('GET',  `materials?search=${encodeURIComponent(search)}`);
     setMaterialsState(request.data.materials);
     setLoading(false);
     return request.data
@@ -40,7 +40,7 @@ export const useMaterialsHook = () => {
 
   const changeMaterialApi = useCallback( async (data, name) => {
     setLoading(true);
-    const request = await httpRequest('PUT',  `materials/${name}`, data);
+    const request = await httpRequest('PUT',  `materials/${encodeURIComponent(name)}`, data);
 
     if (request.status === 200) {
       visibleAlert({
@@ -58,7 +58,7 @@ export const useMaterialsHook = () => {
 
 
   const deletedMaterial = async (name) => {
-    const request = await httpRequest('DELETE', `materials/${name}`);
+    const request = await httpRequest('DELETE', `materials/${encodeURIComponent(name)}`);
     if (request.status === 200) {
       visibleAlert({
         children: <Alert code={request.status} text="Удалено" />
