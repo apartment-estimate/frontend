@@ -69,14 +69,16 @@ const CardEstimate = ({ item }) => {
       children: <DeleteEstimateModal estimate={estimate} item={item} />,
     })
   }
-
+  console.log(item)
   return (
     <NavLink to={`/estimates/${item.name}`} className={cardContainer} >
 
       <h3 className={head}>{item.name}</h3>
       <p className={text}>{item.residence}</p>
       <p className={text}>{item.layout}</p>
+      <p className={text}> Стиль: {item.style}</p>
       <p >{item.customer}</p>
+
 
       <div className={buttonsBlock}>
         <ButtonIcon onClick={(e) => onChangeEstimate(e) }>
